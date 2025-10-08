@@ -1,0 +1,10 @@
+nohup: ignoring input
+/usr/lib/python3/dist-packages/flask_limiter/extension.py:324: UserWarning: Using the in-memory storage for tracking rate limits as no storage was explicitly specified. This is not recommended for production use. See: https://flask-limiter.readthedocs.io#configuring-a-storage-backend for documentation about configuring the storage backend.
+  warnings.warn(
+[2025-10-06 21:27:14,104] WARNING in server: Insecure SECRET_KEY found in config.py — use a strong secret and prefer environment variables
+[2025-10-06 21:27:14,104] WARNING in server: SMTP credentials present in config.py — avoid committing secrets to source control; prefer environment variables
+Falling back to Flask dev server (not for production).
+ * Serving Flask app 'server'
+ * Debug mode: off
+Address already in use
+Port 8000 is in use by another program. Either identify and stop that program, or start the server with a different port.

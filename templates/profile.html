@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ملفي الشخصي</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <div class="logo"><h1>حسابي</h1></div>
+  </header>
+  <main class="main-wrap">
+    <div class="card" style="max-width:720px;margin:20px auto">
+      <h2 class="h2">معلومات الحساب</h2>
+      <p>اسم المستخدم: {{ current_user.username }}</p>
+      <p>البريد الإلكتروني: {{ current_user.email }}</p>
+      <p style="margin-top:12px"><a href="#" onclick="logout()" class="btn">تسجيل الخروج</a></p>
+    </div>
+    <aside>
+      <div class="card">
+        <h3 class="h2">حسابي</h3>
+        <p>اسم المستخدم: {{ current_user.username }}</p>
+        <p>البريد: {{ current_user.email }}</p>
+        <div style="margin-top:12px">
+          <h4>الصورة الشخصية</h4>
+          {% set avatar = None %}
+          {% if current_user.is_authenticated %}
+            {% set u = (query_database('SELECT avatar FROM users WHERE id = ?', (current_user.get_id(),), one=True)) %}
+            {% if u and u.avatar %}
+              <img src="{{ url_for('static', filename='uploads/' + u.avatar) }}" alt="avatar" style="width:120px;height:120px;border-radius:12px;display:block;margin-bottom:8px">
+            {% endif %}
+          {% endif %}
+          <form id="avatar-form" enctype="multipart/form-data">
+            <input type="file" name="avatar" id="avatar-input">
+            <button class="btn" type="button" id="upload-avatar">رفع الصورة</button>
+          </form>
+        </div>
+      </div>
+    </aside>
+  </main>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<!-- footer with Font Awesome social icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-jQ8m2q9e3u6m2Yh2s1Y1qZj1QYx2n3Jf2Vbq6GZl5aYZ3x7G2K1Qw1+q3k2f4r1t0s9vZ1R7y3z4v5y6b7c8g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<footer style="padding:20px;text-align:center;color:var(--muted)">
+  <div>تابعنا على:</div>
+  <div style="margin-top:8px;display:flex;gap:12px;justify-content:center;align-items:center">
+    <a href="https://t.me/" target="_blank" class="btn ghost" aria-label="Telegram"><i class="fa-brands fa-telegram" style="font-size:1.1rem"></i></a>
+    <a href="https://wa.me/" target="_blank" class="btn ghost" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp" style="font-size:1.1rem"></i></a>
+    <a href="mailto:{{ config.SMTP_FROM if config else 'admin@example.com' }}" class="btn ghost" aria-label="Email"><i class="fa-solid fa-envelope" style="font-size:1.1rem"></i></a>
+  </div>
+  <div style="margin-top:8px;color:var(--muted);font-size:0.9em">© NetworkMode</div>
+</footer>

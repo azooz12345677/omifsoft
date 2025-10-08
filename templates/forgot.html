@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>استعادة كلمة المرور</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v={{ static_version }}">
+  <script src="{{ url_for('static', filename='script.js') }}?v={{ static_version }}"></script>
+</head>
+<body>
+  <header><div class="logo"><h1>استعادة كلمة المرور</h1></div></header>
+  <main class="main-wrap">
+    <div class="card" style="max-width:520px;margin:24px auto">
+      <h2 class="h2">أدخل بريدك لاستلام رمز إعادة التعيين</h2>
+      <div class="form">
+        <input id="forgot-email" class="input" placeholder="البريد الإلكتروني">
+        <button class="btn" id="forgot-send">أرسل رمز</button>
+        <div id="forgot-message" class="footer"></div>
+      </div>
+    </div>
+  </main>
+<script>
+document.getElementById('forgot-send').addEventListener('click', function(){
+  const email = document.getElementById('forgot-email').value;
+  postData('/forgot', {email}).then(r=>{
+    document.getElementById('forgot-message').textContent = r.body?.message || 'تم';
+  });
+});
+</script>
+</body>
+</html>

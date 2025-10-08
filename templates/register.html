@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>إنشاء حساب</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v={{ static_version }}">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <script src="{{ url_for('static', filename='script.js') }}?v={{ static_version }}"></script>
+  <meta name="robots" content="noindex">
+</head>
+<body>
+  <header>
+    <div class="logo"><h1>Network Mode</h1></div>
+  </header>
+
+  <main class="main-wrap">
+    <div class="grid">
+      <div>
+        <div class="card">
+          <div class="auth-hero">
+            <div class="auth-illustration">NM</div>
+            <div class="brand">Network Mode</div>
+            <div class="tag">انشئ حسابك وابدأ تحميل المزايا الآن</div>
+          </div>
+
+          <div style="margin-top:16px">
+            <h2 class="h2">إنشاء حساب</h2>
+            <div class="form">
+              <form id="register-form" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input class="input" type="text" id="username" name="username" placeholder="اسم المستخدم">
+                <input class="input" type="email" id="email" name="email" placeholder="البريد الإلكتروني">
+                <input class="input" type="password" id="password" name="password" placeholder="كلمة المرور">
+                <button type="submit" id="register-btn" class="btn submit">إنشاء الحساب</button>
+              </form>
+              <div id="form-message">{% if message %}{{ message }}{% endif %}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="card">
+          <h3 class="h2">لماذا التسجيل؟</h3>
+          <p class="footer">باستخدام حساب، ستتمكن من تحميل الملفات، الوصول للميزات الحصرية، وتلقي التحديثات.</p>
+          <p style="margin-top:12px"><a class="btn ghost" href="{{ url_for('login') }}">لدي حساب بالفعل</a></p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- client submit handled centrally in static/script.js -->
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>تحقق من بريدك</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v={{ static_version }}">
+  <script src="{{ url_for('static', filename='script.js') }}?v={{ static_version }}"></script>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  
+</head>
+<body>
+  <header><div class="logo"><h1>التحقق</h1></div></header>
+  <main class="main-wrap">
+    <div class="card" style="max-width:520px;margin:24px auto">
+      <h2 class="h2">تأكيد حسابك عبر البريد</h2>
+      <div class="form">
+        <p>أرسلنا لك رمز التحقق عبر البريد. افتح بريدك وانسخ الرمز المكون من 6 أرقام وأدخله هنا لتأكيد الحساب. إذا لم يصلك البريد، يمكنك إعادة إرسال الرمز.</p>
+        <!-- dev_code display removed for security/production -->
+        <div style="display:flex;gap:12px;align-items:center;justify-content:center">
+          <button id="resend-btn" class="btn ghost" data-email="{{ email or '' }}" onclick="resendCode()">إعادة إرسال الرمز</button>
+        </div>
+        <hr style="margin:12px 0">
+        <form id="verify-form" onsubmit="return submitVerification(event)">
+          <label for="email">البريد الإلكتروني</label>
+          <input id="email" name="email" type="email" value="{{ email or '' }}" required>
+          <label for="code">رمز التحقق (6 أرقام)</label>
+          <div class="code-inputs" id="code-inputs" aria-label="رمز التحقق">
+            <input inputmode="numeric" pattern="\d*" maxlength="1" class="code-digit" data-index="0" placeholder="●">
+            <input inputmode="numeric" pattern="\d*" maxlength="1" class="code-digit" data-index="1" placeholder="●">
+            <input inputmode="numeric" pattern="\d*" maxlength="1" class="code-digit" data-index="2" placeholder="●">
+            <input inputmode="numeric" pattern="\d*" maxlength="1" class="code-digit" data-index="3" placeholder="●">
+            <input inputmode="numeric" pattern="\d*" maxlength="1" class="code-digit" data-index="4" placeholder="●">
+            <input inputmode="numeric" pattern="\d*" maxlength="1" class="code-digit" data-index="5" placeholder="●">
+          </div>
+          <input type="hidden" id="code" name="code">
+          <div class="code-hint">أدخل الرمز المكوّن من 6 أرقام. يمكنك اللصق مباشرة.</div>
+          <div style="margin-top:12px">
+            <button class="btn primary" type="submit">تحقق</button>
+          </div>
+        </form>
+        <div id="form-message">{% if message %}{{ message }}{% endif %}</div>
+      </div>
+    </div>
+  </main>
+
+<script>
+function resendCode(){
+  const msgEl = document.getElementById('form-message');
+  const meta = document.querySelector('meta[name="csrf-token"]');
+  const csrf = meta ? meta.getAttribute('content') : null;
+  const headers = {'Content-Type':'application/json'};
+  if(csrf) headers['X-CSRFToken'] = csrf;
+  const email = document.getElementById('resend-btn')?.dataset?.email || '';
+  fetch('/resend_verification', {method:'POST', credentials:'same-origin', headers: headers, body: JSON.stringify({email: email})})
+  .then(r=>r.json()).then(j=>{ if(msgEl) msgEl.textContent = j.message || 'تم الإرسال'; });
+}
+</script>
+</body>
+</html>

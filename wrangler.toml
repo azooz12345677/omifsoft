@@ -1,0 +1,9 @@
+name = "azooz-worker"
+main = "index.js"
+compatibility_date = "2025-10-06"
+
+[[d1_databases]]
+binding = "DB_NAME"                     # اسم Binding اللي راح تستخدمه في CLI و Worker
+database_name = "my-db-name"            # اسم قاعدة البيانات في Dashboard
+database_id = "b5ffc9f4-f044-4e23-9569-2a539ddfd66d"  # Database ID الح_
+

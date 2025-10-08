@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redirecting to verification</title>
+  <meta http-equiv="refresh" content="0;url={{ verify_url }}">
+  <script>window.location.replace({{ verify_url|tojson }});</script>
+  <style>body{font-family:system-ui,Arial,sans-serif;padding:24px;text-align:center}</style>
+</head>
+<body>
+  <h2>جارٍ توجيهك لصفحة التحقق...</h2>
+  <p>إذا لم يتم التوجيه تلقائياً، <a href="{{ verify_url }}">اضغط هنا</a></p>
+</body>
+</html>

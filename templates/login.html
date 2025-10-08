@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>تسجيل الدخول</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v={{ static_version }}">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <script src="{{ url_for('static', filename='script.js') }}?v={{ static_version }}"></script>
+  <meta name="robots" content="noindex">
+</head>
+<body>
+  <header>
+    <div class="logo"><h1>Network Mode</h1></div>
+  </header>
+
+  <main class="main-wrap">
+    <div class="grid">
+      <div>
+        <div class="card">
+          <div class="auth-hero">
+            <div class="auth-illustration">NM</div>
+            <div class="brand">Network Mode</div>
+            <div class="tag">سجل دخولك للوصول إلى التحميلات</div>
+          </div>
+
+          <div style="margin-top:16px">
+            <h2 class="h2">تسجيل الدخول</h2>
+            <div class="form">
+              <form id="login-form" method="post" action="/login" onsubmit="return clientValidateLogin();">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="next" value="{{ next or '' }}">
+                <input class="input" type="text" id="username" name="username" placeholder="اسم المستخدم">
+                <input class="input" type="password" id="password" name="password" placeholder="كلمة المرور">
+                <button type="submit" class="btn submit">دخول</button>
+              </form>
+              <div id="form-message">{% if message %}{{ message }}{% endif %}</div>
+              {% if message and 'موثق' in (message or '') or 'غير موثق' in (message or '') %}
+                <!-- show a helpful button to complete verification when account is unverified -->
+                <div style="margin-top:10px">
+                  <button id="complete-verification-btn" class="btn ghost">إكمال التحقق</button>
+                </div>
+                <script>
+                  (function(){
+                    var btn = document.getElementById('complete-verification-btn');
+                    if(!btn) return;
+                    btn.addEventListener('click', function(){
+                      // try to use username field as email fallback
+                      var em = document.getElementById('username')?.value || '';
+                      // if username looks like an email, use it; otherwise ask the user to enter their email on verify page
+                      location.href = '/verify' + (em && em.indexOf('@')>-1 ? ('?email=' + encodeURIComponent(em)) : '');
+                    });
+                  })();
+                </script>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="card">
+          <h3 class="h2">لا تملك حساب؟</h3>
+          <p class="footer"><a class="btn ghost" href="{{ url_for('register') }}">إنشاء حساب</a></p>
+        </div>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>

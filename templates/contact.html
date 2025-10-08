@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>تواصل معنا</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+  <header>
+    <div class="logo"><h1>تواصل معنا</h1></div>
+  </header>
+
+  <main class="main-wrap">
+    <div class="card" style="max-width:720px;margin:24px auto">
+      <h2 class="h2">راسلنا</h2>
+        <form id="contact-form" method="post" action="/contact">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          {% if current_user.is_authenticated %}
+            <input type="hidden" id="name" name="name" value="{{ current_user.username }}">
+            <input type="hidden" id="email" name="email" value="{{ current_user.email }}">
+          {% else %}
+            <input id="name" name="name" class="input" placeholder="اسمك (مطلوب)">
+            <input id="email" name="email" class="input" placeholder="بريدك (مطلوب)">
+          {% endif %}
+          <!-- honeypot field to trap bots: keep hidden via CSS/JS -->
+          <input type="text" id="hp_field" name="hp_field" style="position:absolute;left:-9999px;top:auto;" tabindex="-1" autocomplete="off">
+          <textarea id="message" name="message" class="input" style="min-height:140px" placeholder="اكتب رسالتك هنا"></textarea>
+          <div style="margin-top:12px"><button class="btn" type="submit">أرسل</button></div>
+        </form>
+    </div>
+  </main>
+  {% include '_footer.html' %}
+  <script>
+    // show toast when redirected after form submit
+    (function(){
+      try{
+        var params = new URLSearchParams(window.location.search);
+        if(params.get('sent')){ showToast('تم إرسال رسالتك'); }
+      }catch(e){}
+      // intercept form submit to use AJAX if possible
+      var f = document.getElementById('contact-form'); if(f){ f.addEventListener('submit', function(e){ e.preventDefault(); sendContact(); }); }
+    })();
+  </script>
+</body>
+</html>
